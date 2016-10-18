@@ -1,13 +1,14 @@
 <?php
+
 /**
  *
- * @category Ebizmarts
- * @package magemonkey1922
- * @author Ebizmarts Team <info@ebizmarts.com>
- * @copyright Ebizmarts (http://ebizmarts.com)
+ * @category    Ebizmarts
+ * @package     magemonkey1922
+ * @author      Ebizmarts Team <info@ebizmarts.com>
+ * @copyright   Ebizmarts (http://ebizmarts.com)
  * @license     http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
- * @date: 2/16/16 12:46 PM
- * @file: Queue.php
+ * @date        : 2/16/16 12:46 PM
+ * @file        : Queue.php
  */
 class Ebizmarts_Mandrill_Model_Email_Queue extends Mage_Core_Model_Email_Queue
 {
@@ -33,7 +34,7 @@ class Ebizmarts_Mandrill_Model_Email_Queue extends Mage_Core_Model_Email_Queue
                     if (Mage::getStoreConfig(Ebizmarts_Mandrill_Model_System_Config::ENABLE, $storeId)) {
                         $parameters = new Varien_Object($message->getMessageParameters());
                         $mailer = $this->getMail($storeId);
-                        $mailer->setFrom($parameters->getFromEmail(),$parameters->getFromName());
+                        $mailer->setFrom($parameters->getFromEmail(), $parameters->getFromName());
                         $mailer->setSubject($parameters->getSubject());
                         if ($parameters->getIsPlain()) {
                             $mailer->setBodyText($message->getMessageBody());
@@ -45,7 +46,7 @@ class Ebizmarts_Mandrill_Model_Email_Queue extends Mage_Core_Model_Email_Queue
                             switch ($type) {
                                 case self::EMAIL_TYPE_TO:
                                 case self::EMAIL_TYPE_CC:
-                                    $mailer->addTo($email,$name);
+                                    $mailer->addTo($email, $name);
                                     break;
                                 case self::EMAIL_TYPE_BCC:
                                     $mailer->addBcc($email);
@@ -62,8 +63,8 @@ class Ebizmarts_Mandrill_Model_Email_Queue extends Mage_Core_Model_Email_Queue
                             Mage::dispatchEvent(
                                 'fooman_emailattachments_before_send_queue',
                                 array(
-                                    'mailer'         => $mailer,
-                                    'message'        => $message,
+                                    'mailer' => $mailer,
+                                    'message' => $message,
                                     'mail_transport' => false
 
                                 )
@@ -125,11 +126,13 @@ class Ebizmarts_Mandrill_Model_Email_Queue extends Mage_Core_Model_Email_Queue
                 }
             }
         }
+
         return $this;
     }
 
     /**
      * @param $storeId
+     *
      * @return Mandrill_Message|Zend_Mail
      */
     public function getMail($storeId)
@@ -140,6 +143,7 @@ class Ebizmarts_Mandrill_Model_Email_Queue extends Mage_Core_Model_Email_Queue
 
         Mage::helper('ebizmarts_mandrill')->log("store: $storeId API: " . Mage::getStoreConfig(Ebizmarts_Mandrill_Model_System_Config::APIKEY, $storeId));
         $this->_mail = new Mandrill_Message(Mage::getStoreConfig(Ebizmarts_Mandrill_Model_System_Config::APIKEY, $storeId));
+
         return $this->_mail;
     }
 }
